@@ -3,7 +3,8 @@
 import os
 #timeit gives timre to get code execution time. Could remove it
 from timeit import default_timer as timer
-
+import csv
+import operator
 
 #time to check 
 start = timer()
@@ -35,9 +36,7 @@ def word_if_present(word):
 		f3 =  open('word_count_temp.txt','a')
 		f3.write(word + ' 1' + '\n')
 		f3.close()
-
-
-		
+	
 tempfilr = open('word_count_temp.txt','w+')
 tempfilr.close()
 tempfilr = open('deleteme.txt','w+')
@@ -46,17 +45,26 @@ tempfilr.close()
 #with open('CEO.txt','r') as f:
 #Edit the file name to open
 with open('SampleTextFile_10kb.txt','r') as f:
-
 	for line in f:
 		for word in line.split():
-			print(word)
+			#print(word)
 			if word:
 				word = word.lower()
 				word_if_present(word)
 			
 f.close()
 
+sample = open('word_count_temp.txt','r')
+csv1 = csv.reader(sample,delimiter=' ')
+#operator.itemgetter(1) = [int(x) for x in operator.itemgetter(1)]
+#sort = sorted(csv1,key=operator.itemgetter(1),reverse=True)
+sort = sorted(csv1,key=lambda row: int(row[1]),reverse=True)
+f4 =  open('Sorted_word_count_temp.txt','w')
+for eachline in sort:
+	print(eachline)
+	f4.write(str(eachline)+'\n')
+f4.close()
+sample.close()
 end = timer()
-
 #print the excution time
 print(end - start)
